@@ -123,9 +123,19 @@ internal class Program
             }
             else
             {
-                aNotEmpty = true;
-            }
+                var isDuplicate = allFiszki.FirstOrDefault(x => x.NativePhrase == a);
 
+                if (isDuplicate != null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Fiszka z frazą {a} już istnieje!");
+                }
+                else
+                {
+                    aNotEmpty = true;
+                }
+            }
+            
         }
 
         Console.WriteLine($"\r\nDodaj przykład użycia \"{a}\" w zdaniu:");
