@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Transactions;
 
-namespace Fiszka
+namespace Fiszki
 {
     [Serializable]
     public class Fiszka
@@ -47,24 +47,4 @@ namespace Fiszka
             return report.ToString();
         }
      }
-
-
-
-
-    public class Komenda
-    {
-        public string nazwaKomendy { get; set; }
-        public string definicjaKomendy { get; set; }
-
-        public Komenda(string nazwaKomendy, string definicjaKomendy)
-        {
-            this.nazwaKomendy = nazwaKomendy;
-            this.definicjaKomendy = definicjaKomendy;
-        }
-        public List<Komenda> listaKomend = new List<Komenda>();
-
-
-    }
-
-
 }

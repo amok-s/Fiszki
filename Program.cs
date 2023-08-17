@@ -1,5 +1,4 @@
 ﻿namespace Fiszki;
-using Fiszka;
 using System;
 using System.IO;
 using System.Text;
@@ -11,15 +10,15 @@ internal class Program
 {
 
     public static List<Fiszka> allFiszki = new List<Fiszka>();
-    public static List<Komenda> listaKomend = new List<Komenda>();
     static Random rnd = new Random();
+    static UI UI = new UI();
 
     static void Main(string[] args)
     {
+        #region LoadingFiszkasFromAFile
 
-       Directory.CreateDirectory(@"data");
+        Directory.CreateDirectory(@"data");
 
-        #region WczytywanieFiszek
         DataSerializer dataSerializer = new DataSerializer();
         Fiszka p = null;
 
@@ -33,17 +32,7 @@ internal class Program
         allFiszki.OrderBy(x => x.MemoScore).ToList();
         #endregion
 
-        ekranStartowy();
-
-        var komDodaj = new Komenda("dodaj", "aby dodać fiszki");
-        var komFiszki = new Komenda("fiszki", "aby przeglądać fiszki oraz je usuwać");
-        var komNauka = new Komenda("nauka", "aby zacząć naukę");
-        var komKoniec = new Komenda("koniec", "aby zapisać i zakończyć program");
-        listaKomend.Add(komDodaj);
-        listaKomend.Add(komFiszki);
-        listaKomend.Add(komNauka);
-        listaKomend.Add(komKoniec);
-
+        UI.TitleCard();
 
         bool endApp = false;
 
@@ -67,9 +56,9 @@ internal class Program
                     string showKomendy()
                     {
                         var report = new StringBuilder();
-                        foreach (var item in listaKomend)
+                        foreach (var item in UI.ListOfCommands)
                         {
-                            int n = listaKomend.IndexOf(item);
+                            int n = UI.ListOfCommands.IndexOf(item);
                             if (n > 0)
                                 report.AppendLine($"{item.nazwaKomendy.ToUpper()}\t\t{item.definicjaKomendy}.");
                         }
@@ -97,7 +86,7 @@ internal class Program
                     break;
             }
             if (komenda == "koniec") endApp = true;
-        }   //Menu głowne z komendami
+        }   // Main menu
 
     }
 
@@ -464,7 +453,7 @@ internal class Program
         string showKomendy()
         {
             var report = new StringBuilder();
-            foreach (var item in listaKomend)
+            foreach (var item in UI.ListOfCommands)
             {
                 report.AppendLine($"{item.nazwaKomendy.ToUpper()}\t\t{item.definicjaKomendy}.");
             }
@@ -478,66 +467,9 @@ internal class Program
         Console.WriteLine(showKomendy());
     }
 
-    static void ekranStartowy()
-    {
-        string title = @"                                                                                           
-                                                                                           
-FFFFFFFFFFFFFFFFFFFFFF  iiii                                    kkkkkkkk             iiii  
-F::::::::::::::::::::F i::::i                                   k::::::k            i::::i 
-F::::::::::::::::::::F  iiii                                    k::::::k             iiii  
-FF::::::FFFFFFFFF::::F                                          k::::::k                   
-  F:::::F       FFFFFFiiiiiii     ssssssssss   zzzzzzzzzzzzzzzzz k:::::k    kkkkkkkiiiiiii 
-  F:::::F             i:::::i   ss::::::::::s  z:::::::::::::::z k:::::k   k:::::k i:::::i 
-  F::::::FFFFFFFFFF    i::::i ss:::::::::::::s z::::::::::::::z  k:::::k  k:::::k   i::::i 
-  F:::::::::::::::F    i::::i s::::::ssss:::::szzzzzzzz::::::z   k:::::k k:::::k    i::::i 
-  F:::::::::::::::F    i::::i  s:::::s  ssssss       z::::::z    k::::::k:::::k     i::::i 
-  F::::::FFFFFFFFFF    i::::i    s::::::s           z::::::z     k:::::::::::k      i::::i 
-  F:::::F              i::::i       s::::::s       z::::::z      k:::::::::::k      i::::i 
-  F:::::F              i::::i ssssss   s:::::s    z::::::z       k::::::k:::::k     i::::i 
-FF:::::::FF           i::::::is:::::ssss::::::s  z::::::zzzzzzzzk::::::k k:::::k   i::::::i
-F::::::::FF           i::::::is::::::::::::::s  z::::::::::::::zk::::::k  k:::::k  i::::::i
-F::::::::FF           i::::::i s:::::::::::ss  z:::::::::::::::zk::::::k   k:::::k i::::::i
-FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkkkkkiiiiiiii
-                                                                                           
-                                                                       by Arkadiusz Stanek";
+    
 
-        Console.WriteLine(title);
-        Console.WriteLine();
-        Console.WriteLine("Aby kontynuować wciśnij dowolny przycisk.");
-        Console.ReadKey(true);
-        Console.Clear();
-    }
-
-    class DataSerializer
-    {
-        public void BinarySerialize(object data, string filePath)
-        {
-            FileStream fileStream;
-            BinaryFormatter bf = new BinaryFormatter();
-
-            if (File.Exists(filePath)) File.Delete(filePath);
-            fileStream = File.Create(filePath);
-            bf.Serialize(fileStream, data);
-            fileStream.Close();
-        }
-
-        public object BinaryDeserialize(string filePath)
-        {
-            object obj = null;
-
-            FileStream fileStream;
-            BinaryFormatter bf = new BinaryFormatter();
-            if(File.Exists(filePath))
-            {
-                fileStream = File.OpenRead(filePath);
-                obj = bf.Deserialize(fileStream);
-                fileStream.Close();
-            }
-
-            return obj;
-        }
-
-    }
+  
     
 
 
