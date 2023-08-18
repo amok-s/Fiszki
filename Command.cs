@@ -8,13 +8,13 @@ namespace Fiszki
 {
     public class Command
     {
-        public string nazwaKomendy { get; set; }
-        public string definicjaKomendy { get; set; }
+        public string commandName { get; set; }
+        public string commandDescription { get; set; }
 
-        public Command(string nazwaKomendy, string definicjaKomendy)
+        public Command(string commandName, string commandDescription)
         {
-            this.nazwaKomendy = nazwaKomendy;
-            this.definicjaKomendy = definicjaKomendy;
+            this.commandName = commandName;
+            this.commandDescription = commandDescription;
         }
     }
 }
