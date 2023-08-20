@@ -144,13 +144,13 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
             Console.WriteLine("\r\nPrzetłumaczone użycie w zdaniu to:");
             d = Console.ReadLine();
 
-            var nowaFiszka = new Fiszka(a, b, c, d);
+            var newFiszka = new Fiszka(a, b, c, d);
 
-            nowaFiszka.allScores.Add(2.05);
-            Program.allFiszki.Add(nowaFiszka);
+            newFiszka.allScores.Add(2.05);
+            Program.allFiszki.Add(newFiszka);
 
             DataSerializer dataSerializer = new DataSerializer();
-            dataSerializer.BinarySerialize(nowaFiszka, @$"data\data{Program.allFiszki.Count - 1}.save");
+            dataSerializer.BinarySerialize(newFiszka, @$"data\data{Program.allFiszki.Count - 1}.save");
 
 
             Console.Clear();
@@ -160,7 +160,7 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
             Console.WriteLine();
             Console.WriteLine("Dodana fiszka to:");
             Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine(nowaFiszka.ShowFiszka());
+            Console.WriteLine(newFiszka.ShowFiszka());
             Console.WriteLine("----------------------------------------------------------");
 
         }
@@ -177,11 +177,11 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
 
             else
             {
-                bool przegladFiszek = false;
+                bool browsingFiszkas = false;
 
                 int r = 0;
 
-                while (!przegladFiszek)
+                while (!browsingFiszkas)
                 {
                     Console.Clear();
                     Console.WriteLine("--------------------------------------");
@@ -199,9 +199,9 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
                     i = Math.Round(i, 2);
                     Console.WriteLine($"Poziom zapamiętania: {i}");
 
-                    var komenda = Console.ReadKey(true);
+                    var userInputKey = Console.ReadKey(true);
 
-                    switch (komenda.KeyChar)
+                    switch (userInputKey.KeyChar)
                     {
                         case 'm':
                             if (r + 1 > Program.allFiszki.Count - 1)
@@ -241,7 +241,7 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
 
                             if (Program.allFiszki.Count == 0)
                             {
-                                przegladFiszek = true;
+                                browsingFiszkas = true;
                                 break;
                             }
                             else
@@ -259,7 +259,7 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
 
 
                         case 'q':
-                            przegladFiszek = true;
+                            browsingFiszkas = true;
                             break;
                     }
 
@@ -284,10 +284,10 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
 
             else
             {
-                bool koniecNauki = false;
+                bool endStudy = false;
                 int poprzedniaFiszka = 0;
 
-                while (!koniecNauki)
+                while (!endStudy)
                 {
                     Console.Clear();
                     Console.WriteLine("--------------------------------------");
@@ -324,21 +324,21 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
                     poprzedniaFiszka = r;
                     Console.WriteLine(Program.allFiszki[r].NativePhrase.ToUpper());
 
-                    var komenda = Console.ReadKey(true);
+                    var userInputKey = Console.ReadKey(true);
 
-                    void Ocenianie()
+                    void Scoring()
                     {
 
-                        bool koniecOceniania = false;
+                        bool endScoring = false;
 
-                        while (!koniecOceniania)
+                        while (!endScoring)
                         {
                             var UserInput = Console.ReadKey(true);
 
                             if (UserInput.KeyChar == 'q')
                             {
-                                koniecOceniania = true;
-                                koniecNauki = true;
+                                endScoring = true;
+                                endStudy = true;
                             }
 
                             else
@@ -384,21 +384,21 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
                                     f++;
                                 }
 
-                                if (UserInput.KeyChar == '1' || UserInput.KeyChar == '2') koniecOceniania = true;
-                                if (UserInput.KeyChar == '3' || UserInput.KeyChar == '4' || UserInput.KeyChar == '5') koniecOceniania = true;
+                                if (UserInput.KeyChar == '1' || UserInput.KeyChar == '2') endScoring = true;
+                                if (UserInput.KeyChar == '3' || UserInput.KeyChar == '4' || UserInput.KeyChar == '5') endScoring = true;
                             }
                         }
                     }
 
 
-                    switch (komenda.KeyChar)
+                    switch (userInputKey.KeyChar)
                     {
 
                         case 'm':
                             Console.WriteLine(Program.allFiszki[r].NativePhraseExample);
-                            komenda = Console.ReadKey(true);
+                            userInputKey = Console.ReadKey(true);
 
-                            switch (komenda.KeyChar)
+                            switch (userInputKey.KeyChar)
                             {
                                 case 'm':
                                 case 'n':
@@ -407,7 +407,7 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
                                     Console.WriteLine(Program.allFiszki[r].TranslatedPhraseExample);
                                     Console.WriteLine();
                                     Console.WriteLine("Oceń zapamiętanie w skali 1-5 wciskając odpowiednią cyfrę.");
-                                    Ocenianie();
+                                    Scoring();
                                     break;
                             }
 
@@ -420,12 +420,12 @@ FFFFFFFFFFF           iiiiiiii  sssssssssss    zzzzzzzzzzzzzzzzzkkkkkkkk    kkkk
                             Console.WriteLine(Program.allFiszki[r].TranslatedPhraseExample);
                             Console.WriteLine();
                             Console.WriteLine("Oceń zapamiętanie w skali 1-5 wciskając odpowiednią cyfrę.");
-                            Ocenianie();
+                            Scoring();
                             break;
 
                     }
 
-                    if (komenda.KeyChar == 'q') koniecNauki = true;
+                    if (userInputKey.KeyChar == 'q') endStudy = true;
                 }
                 Console.Clear();
                 MainScreen();

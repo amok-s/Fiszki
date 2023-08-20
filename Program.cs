@@ -41,11 +41,11 @@ internal class Program
 
         while (!endApp)
         {
-            string? komenda;
-            komenda = Console.ReadLine().ToLower();
+            string? userInput;
+            userInput = Console.ReadLine().ToLower();
 
 
-            switch (komenda)
+            switch (userInput)
             {
                 case "dodaj":
                     UI.ReadCommandAdd();
@@ -73,8 +73,8 @@ internal class Program
                     Console.WriteLine("Aby zakończyć aplikację wpisz 'koniec'.");
                     break;
             }
-            if (komenda == "koniec") endApp = true;
-        }   // Main menu
+            if (userInput == "koniec") endApp = true;
+        }   // user input control
 
     }
 
